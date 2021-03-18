@@ -20,11 +20,6 @@ class User
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        $user = Auth::user();
-
-        if ($user)
-            return $next($request);
-
-        return redirect()->route('login');
+        return $next($request);
     }
 }

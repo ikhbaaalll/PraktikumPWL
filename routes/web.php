@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/',                     [AuthController::class, 'index'])->name('login');
+Route::post('/',                    [AuthController::class, 'login'])->name('loginStore');
+
+Route::get('/github',               [AuthController::class, 'github'])->name('github');
+Route::get('/github/redirect',      [AuthController::class, 'githubRedirect'])->name('githubStore');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home',     [AuthController::class, 'home'])->name('home');
+    Route::post('/home',    [AuthController::class, 'logout'])->name('logout');
 });
